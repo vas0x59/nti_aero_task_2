@@ -107,7 +107,7 @@ while not est and cv2.waitKey(2) != ord('q'):
         if x >= 0 and y >= 0 and x+w <= ss and y+h <= ss:
             img = image[y:y+h, x:x+w].copy()
             img = cv2.resize(img, (64, 64))
-            cv2.imshow("img", img)
+            # cv2.imshow("img", img)
             su = np.mean(img)
             print(su, prev_s, abs(prev_s - su))
             if abs(prev_s - su)  > 7:
@@ -135,7 +135,7 @@ while not est and cv2.waitKey(2) != ord('q'):
             rectm = [(rectm[0][0] / len(rects), rectm[0][1] / len(rects)),
                 (rectm[1][0] / len(rects), rectm[1][1] / len(rects)), rectm[2] / len(rects)]
             rectm = tuple(rectm)
-            print("m", rectm)
+            # print("m", rectm)
             angle = angle
             box = cv2.boxPoints(rectm)
             box = np.int0(box)
@@ -151,11 +151,12 @@ while not est and cv2.waitKey(2) != ord('q'):
             exit_p = pp.index(min(pp))
             print("exit_p", exit_p)
             # s1 = get_sum()
-            cv2.imshow("coords", out)
+            # cv2.imshow("coords", out)
             angle = angle*0.6 + rectm[2]*0.4
             angle = exit_p*90+angle
             print("angle", angle)
-            angle+=180
+            if angle < 0:
+                angle = 360 + angle
             print("360", angle)
             pub.publish(int(abs(angle)))
             break
@@ -167,15 +168,15 @@ while not est and cv2.waitKey(2) != ord('q'):
             rects.append(rect)
             if len(rects) >= 20:
                 rects.pop(0)
-            print(rects)
+            # print(rects)
             ang = rect[2]
             # x_m += rect[0][0]
             # y_m += rect[0][1]
             angle_m += ang
             print("angle", ang)
             i_m  += 1
-    cv2.imshow("coords", out)
+    # cv2.imshow("coortds", out)
     
 
-cv2.waitKey(0)
+# cv2.waitKey(0)
 # rospy.spin()
